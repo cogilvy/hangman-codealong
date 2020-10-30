@@ -89,3 +89,15 @@ section button {
   color: grey;
   text-align: center;
 }
+
+button.valid-letter {
+  background-color: var(--accent-light);
+  color: rgb(61, 60, 60);
+  cursor: not-allowed;
+}
+
+button.wrong-letter {
+  background-color: var(--accent-dark);
+  color: grey;
+  cursor: not-allowed;
+}

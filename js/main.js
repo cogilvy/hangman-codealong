@@ -16,6 +16,7 @@ let wrongLetters;
 const guessEl = document.getElementById('guess');
 const replayBtn = document.getElementById('replay');
 const gallowsEl = document.getElementById('gallows');
+const letterBtns = document.querySelectorAll('section > button');
 
 /*----- event listeners -----*/
 document.querySelector('section')
@@ -55,6 +56,22 @@ function render() {
   guessEl.textContent = guessWord;
   replayBtn.style.visibility = gameStatus ? 'visible' : 'hidden';
   gallowsEl.style.backgroundPositionX = `-${wrongLetters.length * PANEL_WIDTH}vmin`;
+  renderButtons();
+}
+
+function renderButtons() {
+  letterBtns.forEach(function(btn) {
+    const letter = btn.textContent;
+    btn.disabled = guessWord.includes(letter)
+      || wrongLetters.includes(letter);
+    if (guessWord.includes(letter)) {
+      btn.className = 'valid-letter';
+    } else if (wrongLetters.includes(letter)) {
+      btn.className = 'wrong-letter';
+    } else {
+      btn.className = '';
+    }
+  });
 }
 
 function init() {
