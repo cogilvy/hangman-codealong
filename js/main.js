@@ -4,6 +4,7 @@ const WORDS = [
   'BOOLEAN', 'REACT', 'COMPUTER SCIENCE',
   'TERMINAL', 'EVENTS'
 ];
+const PANEL_WIDTH = 15;
 
 /*----- app's state (variables) -----*/
 let secretWord;
@@ -14,6 +15,7 @@ let wrongLetters;
 /*----- cached element references -----*/
 const guessEl = document.getElementById('guess');
 const replayBtn = document.getElementById('replay');
+const gallowsEl = document.getElementById('gallows');
 
 /*----- event listeners -----*/
 document.querySelector('section')
@@ -32,7 +34,17 @@ function handleLetterClick(evt) {
   const letter = evt.target.textContent;
   // Exit function if the following conditions exit
   if (evt.target.tagName !== 'BUTTON' || gameStatus) return;
-  console.log(letter);
+  if (secretWord.includes(letter)) {
+    // Update guessWord where all occurances of that letter exist
+    let newGuess = '';
+    for (let i = 0; i < secretWord.length; i++) {
+      newGuess += secretWord.charAt(i) === letter ? letter : guessWord.charAt(i);
+    }
+    guessWord = newGuess;
+  } else {
+    // Add the letter to the wrongLetters array
+    wrongLetters.push(letter);
+  }
 
 
   render();
@@ -42,6 +54,7 @@ function handleLetterClick(evt) {
 function render() {
   guessEl.textContent = guessWord;
   replayBtn.style.visibility = gameStatus ? 'visible' : 'hidden';
+  gallowsEl.style.backgroundPositionX = `-${wrongLetters.length * PANEL_WIDTH}vmin`;
 }
 
 function init() {
