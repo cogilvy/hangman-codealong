@@ -12,25 +12,36 @@ let gameStatus;  // null = in progress; 👎 = lose; 👍 = win
 let wrongLetters;
 
 /*----- cached element references -----*/
+const guessEl = document.getElementById('guess');
+const replayBtn = document.getElementById('replay');
+
+/*----- event listeners -----*/
 document.querySelector('section')
   .addEventListener('click', handleLetterClick);
 
   document.getElementById('replay')
   .addEventListener('click', init);
 
-/*----- event listeners -----*/
-
 
 /*----- functions -----*/
 init();
 
+// in response to user interaction, update state and call render
 function handleLetterClick(evt) {
+  // debugger;
   const letter = evt.target.textContent;
+  // Exit function if the following conditions exit
+  if (evt.target.tagName !== 'BUTTON' || gameStatus) return;
   console.log(letter);
+
+
+  render();
 }
 
+// render transfers all state to the DOM
 function render() {
-
+  guessEl.textContent = guessWord;
+  replayBtn.style.visibility = gameStatus ? 'visible' : 'hidden';
 }
 
 function init() {
