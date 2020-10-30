@@ -55,7 +55,7 @@ section button {
 }
 
 #msg {
-  font-size: 3vmin;
+  font-size: 5vmin;
   color: var(--accent-dark);
 }
 
@@ -74,4 +74,18 @@ section button {
 #replay:hover {
   background-color: grey;
   color: white;
+}
+
+#gallows {
+  width: 15vmin;
+  height: 40vmin;
+  background-image: url(../imgs/hangman.png);
+  background-size: cover;
+}
+
+#guess {
+  font-size: 5vmin;
+  letter-spacing: 2vmin;
+  color: grey;
+  text-align: center;
 }
