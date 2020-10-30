@@ -57,6 +57,11 @@ section button {
 #msg {
   font-size: 5vmin;
   color: var(--accent-dark);
+  text-align: center;
+}
+
+#msg > span {
+  font-size: 3vmin;
 }
 
 #replay {

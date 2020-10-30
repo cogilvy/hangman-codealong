@@ -5,6 +5,7 @@ const WORDS = [
   'TERMINAL', 'EVENTS'
 ];
 const PANEL_WIDTH = 15;
+const FATAL_NUM_GUESSES = 6;
 
 /*----- app's state (variables) -----*/
 let secretWord;
@@ -14,6 +15,7 @@ let wrongLetters;
 
 /*----- cached element references -----*/
 const guessEl = document.getElementById('guess');
+const msgEl = document.getElementById('msg');
 const replayBtn = document.getElementById('replay');
 const gallowsEl = document.getElementById('gallows');
 const letterBtns = document.querySelectorAll('section > button');
@@ -31,7 +33,7 @@ init();
 
 // in response to user interaction, update state and call render
 function handleLetterClick(evt) {
-  // debugger;
+  debugger;
   const letter = evt.target.textContent;
   // Exit function if the following conditions exit
   if (evt.target.tagName !== 'BUTTON' || gameStatus) return;
@@ -46,9 +48,19 @@ function handleLetterClick(evt) {
     // Add the letter to the wrongLetters array
     wrongLetters.push(letter);
   }
-
-
+  gameStatus = getGameStatus();
   render();
+}
+
+function getGameStatus() {
+  if (guessWord === secretWord) return '👍';
+  if (wrongLetters.length === FATAL_NUM_GUESSES) return '👎';
+  return null;
+  // if (guessWord === secretWord) {
+  //   return '👍';
+  // } else if (wrongLetters.length === FATAL_NUM_GUESSES) {
+  //   return '👎';
+  // }
 }
 
 // render transfers all state to the DOM
@@ -57,6 +69,18 @@ function render() {
   replayBtn.style.visibility = gameStatus ? 'visible' : 'hidden';
   gallowsEl.style.backgroundPositionX = `-${wrongLetters.length * PANEL_WIDTH}vmin`;
   renderButtons();
+  renderMessage();
+}
+
+function renderMessage() {
+  if (gameStatus === '👍') {
+   msgEl.textContent = 'CONGRATS - YOU WON!';
+  } else if (gameStatus === '👎') {
+    msgEl.textContent = 'RIP';
+  } else {
+    const numRemaining = FATAL_NUM_GUESSES - wrongLetters.length;
+    msgEl.innerHTML = `GOOD LUCK!<br><span>${numRemaining} WRONG GUESS${numRemaining === 1 ? '' : 'ES'} REMAINING</span>`;
+  }
 }
 
 function renderButtons() {
